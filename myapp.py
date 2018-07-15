@@ -1,5 +1,6 @@
 import os
 import datetime
+import json
 from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
@@ -15,7 +16,7 @@ def send_js(path):
 # Returns JSON formatted date for AJAX-y goodness
 @app.route('/date')
 def current_date():
-	return "{ date:\""+ str(datetime.datetime.now()) +"\"}"
+	return json.dumps({"date": str(datetime.datetime.now())})
 	
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
