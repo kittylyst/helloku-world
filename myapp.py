@@ -15,7 +15,7 @@ def send_js(path):
 # Returns JSON formatted date for AJAX-y goodness
 @app.route('/date')
 def current_date():
-	return "{ date:\""+ datetime.datetime.now().strftime("%Y%m%d") +"\"}"
+	return "{ date:\""+ str(datetime.datetime.now()) +"\"}"
 	
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
