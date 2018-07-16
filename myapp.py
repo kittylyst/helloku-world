@@ -2,7 +2,7 @@ import os
 import datetime
 import json
 import psycopg2
-import urllib
+import urllib.parse as urlparse
 from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def get_users():
     conn = ""
     out = []
     try:
-        url = urllib.parse(os.environ['DATABASE_URL'])
+        url = urlparse.urlparse(os.environ['DATABASE_URL'])
         dbname = url.path[1:]
         user = url.username
         password = url.password
