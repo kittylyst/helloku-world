@@ -17,6 +17,8 @@ def send_js(path):
 
 @app.route('/users')
 def get_users():
+    conn = ""
+    out = []
     try:
         url = urlparse.urlparse(os.environ['DATABASE_URL'])
         dbname = url.path[1:]
@@ -25,6 +27,9 @@ def get_users():
         host = url.hostname
         port = url.port
         conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+    except:
+        out = {"err": "Unable to connect to the database"}
+    try:
         # conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
         cur = conn.cursor()
         cur.execute("""SELECT user_id, user_name from users""")
@@ -32,10 +37,9 @@ def get_users():
         out = []
         for row in rows:
             out.append({"id": row[0], "name": row[1]})
-        return json.dumps(out)
     except:
-        out = {"err": "Unable to connect to the database"}
-        return json.dumps(out)
+        out = {"err": "General SQL Error"}
+    return json.dumps(out)
 
 
 # Returns JSON formatted date for AJAX-y goodness
