@@ -2,7 +2,7 @@ import os
 import datetime
 import json
 import psycopg2
-import urllib.parse as urlparse
+import urllib
 from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def get_users():
     conn = ""
     out = []
     try:
-        url = urlparse.urlparse(os.environ['DATABASE_URL'])
+        url = urllib.parse(os.environ['DATABASE_URL'])
         dbname = url.path[1:]
         user = url.username
         password = url.password
@@ -30,7 +30,6 @@ def get_users():
     except:
         out = {"err": "Unable to connect to the database"}
     try:
-        # conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
         cur = conn.cursor()
         cur.execute("""SELECT user_id, user_name from users""")
         rows = cur.fetchall()
