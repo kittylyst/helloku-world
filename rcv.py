@@ -3,16 +3,18 @@ import time
 import uuid
 import datetime
 import json
+from pprint import pprint
 import paho.mqtt.client as mqtt
 
 def msg_rcv(client, userdata, message):
-    print("Received message '" + str(message.payload) + "' on topic '" + message.topic)
+    # print("Received message '" + str(message.payload) + "' on topic '" + message.topic)
+    data = json.loads(str(message.payload))
+    print(data["date"])
 
 def on_log(client, userdata, level, buf):
     print("log: ",buf)
 
 def main_loop():
-    rightnow = str(datetime.datetime.now())
     # mosquitto_sub -h 82.165.16.151 -t UCC/mark
     client = mqtt.Client("bje_client_"+ str(uuid.UUID.hex))
     client.on_message = msg_rcv
