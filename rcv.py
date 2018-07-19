@@ -8,8 +8,11 @@ import paho.mqtt.client as mqtt
 
 def msg_rcv(client, userdata, message):
     # print("Received message '" + str(message.payload) + "' on topic '" + message.topic)
-    data = json.loads(str(message.payload))
-    print(data["date"])
+    try:
+        data = json.loads(str(message.payload))
+        print(data["date"])
+    except:
+        print("A message not intended for me, ignoring...")
 
 def on_log(client, userdata, level, buf):
     print("log: ",buf)
