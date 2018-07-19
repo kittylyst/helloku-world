@@ -1,6 +1,7 @@
 import os
 import datetime
 import json
+import paho.mqtt.client as mqtt
 import psycopg2
 import urllib.parse as urlparse
 from flask import Flask, render_template, send_from_directory
@@ -9,6 +10,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    client = mqtt.Client("bje_client_test1")
     return render_template('index.html')
 
 @app.route('/js/<path:path>')
