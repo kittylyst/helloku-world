@@ -10,7 +10,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    client = mqtt.Client("bje_client_test1")
     return render_template('index.html')
 
 @app.route('/js/<path:path>')
@@ -46,7 +45,12 @@ def get_users():
 # Returns JSON formatted date for AJAX-y goodness
 @app.route('/date')
 def current_date():
-	return json.dumps({"date": str(datetime.datetime.now())})
+    rightnow = str(datetime.datetime.now())
+    # mosquitto_pub -h 82.165.16.151 -m "Hi" -t UCC/mark
+    client = mqtt.Client("bje_client_test1")
+    client.connect("82.165.16.151") # , port=1883 , keepalive=60, bind_address=""
+    client.publish("UCC/mark", rightnow)
+    return json.dumps({"date": rightnow})
 	
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
