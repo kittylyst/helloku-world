@@ -4,7 +4,7 @@ import json
 import paho.mqtt.client as mqtt
 import psycopg2
 import urllib.parse as urlparse
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, jsonify
 
 app = Flask(__name__)
 
@@ -39,7 +39,7 @@ def get_users():
             out.append({"id": row[0], "name": row[1]})
     except:
         out = {"err": "General SQL Error"}
-    return json.dumps(out)
+    return jsonify(out)
 
 
 # Returns JSON formatted date for AJAX-y goodness
@@ -50,7 +50,7 @@ def current_date():
     client = mqtt.Client("bje_client_test1")
     client.connect("82.165.16.151") # , port=1883 , keepalive=60, bind_address=""
     client.publish("UCC/mark", rightnow)
-    return json.dumps({"date": rightnow})
+    return jsonify({"date": rightnow})
 	
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
