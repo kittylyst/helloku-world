@@ -48,8 +48,8 @@ def current_date():
     rightnow = str(datetime.datetime.now())
     # mosquitto_pub -h 82.165.16.151 -m "Hi" -t UCC/mark
     client = mqtt.Client("bje_client_test1")
-    client.connect("82.165.16.151") # , port=1883 , keepalive=60, bind_address=""
-    client.publish("UCC/mark", rightnow)
+    client.connect("test.mosquitto.org") # , port=1883 , keepalive=60, bind_address=""
+    client.publish("test_for_anna", jsonify({"date": rightnow}))
     return jsonify({"date": rightnow})
 	
 if __name__ == "__main__":
