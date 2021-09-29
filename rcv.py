@@ -12,7 +12,7 @@ def msg_rcv(client, userdata, message):
         data = json.loads(str(message.payload))
         print(data["date"])
     except:
-        print("A message not intended for me, ignoring...")
+        print("A message not intended for me, ignoring... "+ str(message.payload))
 
 def on_log(client, userdata, level, buf):
     print("log: ",buf)
@@ -22,12 +22,12 @@ def main_loop():
     client = mqtt.Client("bje_client_"+ str(uuid.UUID.hex))
     client.on_message = msg_rcv
     # client.on_log = on_log
-    client.connect("82.165.16.151") # , port=1883 , keepalive=60, bind_address=""
+    client.connect("test.mosquitto.org") # , port=1883 , keepalive=60, bind_address=""
     client.loop_start()
-    client.subscribe("UCC/mark")
+    client.subscribe("test_for_anna")
 
     while True:
-        time.sleep(4)
+        time.sleep(1)
         print(".")
 
 if __name__ == "__main__":
