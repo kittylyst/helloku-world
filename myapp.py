@@ -4,7 +4,7 @@ import json
 import paho.mqtt.client as mqtt
 #import psycopg2
 import urllib.parse as urlparse
-from flask import Flask, render_template, send_from_directory, jsonify
+from flask import Flask, render_template, send_from_directory, jsonify, request
 
 app = Flask(__name__)
 
@@ -46,11 +46,12 @@ def send_js(path):
 @app.route('/date')
 def current_date():
     rightnow = str(datetime.datetime.now())
-    # mosquitto_pub -h 82.165.16.151 -m "Hi" -t UCC/mark
+    clicked = request.args.get('val')
+
     client = mqtt.Client("bje_client_test1")
     client.connect("test.mosquitto.org") # , port=1883 , keepalive=60, bind_address=""
     client.publish("test_for_anna", json.dumps({"date": rightnow}))
-    return jsonify({"date": rightnow})
+    return jsonify({"date": rightnow, "value": clicked})
 	
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
