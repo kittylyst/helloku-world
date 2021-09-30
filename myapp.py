@@ -47,11 +47,13 @@ def send_js(path):
 def current_date():
     rightnow = str(datetime.datetime.now())
     clicked = request.args.get('val')
+    # print(clicked)
+    to_send = {"date": rightnow, "value": clicked}
 
     client = mqtt.Client("bje_client_test1")
     client.connect("test.mosquitto.org") # , port=1883 , keepalive=60, bind_address=""
-    client.publish("test_for_anna", json.dumps({"date": rightnow}))
-    return jsonify({"date": rightnow, "value": clicked})
+    client.publish("test_for_anna", json.dumps(to_send))
+    return jsonify(to_send)
 	
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
