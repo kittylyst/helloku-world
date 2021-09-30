@@ -6,9 +6,9 @@ function blah(date) {
 
 function popup() {
     alert( "Handler called." );
-  }
+}
 
-  $(document).ready(function() {
+$(document).ready(function() {
     $("#trigger").click(function() {
         $.getJSON("/date", function(data){
             var items = [];
